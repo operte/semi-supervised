@@ -1,4 +1,5 @@
 import spacy
+from scipy.spatial import distance
 
 
 def load_nlp_model():
@@ -42,3 +43,7 @@ def get_tokens(text: str, nlp, vectors=True, del_stopwords=True, del_punct=True,
             else:
                 final_tokens.append(clean_token.vector)
     return final_tokens
+
+
+def get_similarity(v1, v2):
+    return 1 - distance.cosine(v1, v2)
