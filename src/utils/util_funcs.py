@@ -27,17 +27,18 @@ def clean_tokens(token, del_stopwords=True, del_punct=True, del_references=True,
     if del_no_vector and token.vector_norm < 0.001:
         return None
 
-    return str(token)
+    return token
 
 
-def get_tokens(text: str, del_stopwords=True, del_punct=True, del_references=True, 
+def get_tokens(text: str, nlp, vectors=True, del_stopwords=True, del_punct=True, del_references=True, 
     del_non_alpha_start_end=True, lemmatize=True, lowercase=True, has_vector=True):
-
-    nlp = load_nlp_model()
 
     final_tokens = []
     for token in nlp(text):
         clean_token = clean_tokens(token)
         if clean_token:
-            final_tokens.append(clean_token)
+            if not vectors:
+                final_tokens.append(clean_token.text)
+            else:
+                final_tokens.append(clean_token.vector)
     return final_tokens
